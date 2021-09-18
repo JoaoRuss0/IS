@@ -108,13 +108,13 @@ namespace ConsoleApp
                 Console.WriteLine("Adding Programmer 1");
                 people.addPerson(programmer1);
 
-                Console.WriteLine("Adding Programmer 1");
-                people.addPerson(programmer1);
+                Console.WriteLine("Removing Programmer 1");
+                people.removePerson(programmer1);
 
                 Console.WriteLine("Adding Manager");
                 people.addPerson(manager);
 
-                Console.WriteLine(Environment.NewLine + "Currently " + people.NumberOfPersons() + " people in the collection.");
+                Console.WriteLine(Environment.NewLine + "Currently " + people.NumberOfPersons() + " people are in the collection.");
             }
             catch (Exception e)
             {

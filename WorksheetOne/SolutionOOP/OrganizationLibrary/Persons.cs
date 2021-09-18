@@ -10,17 +10,17 @@ namespace OrganizationLibrary
 {
     public class Persons : Collection<Person>
     {
-        public Person this[int index]
+        public new Person this[int index]
         {
-            get { return this[index]; }
-            set { this[index] = value; }
+            get { return base[index]; }
+            set { base[index] = value; }
         }
 
         public void addPerson(Person person)
         {
-            if (this.Contains(person))
+            if (base.Contains(person))
             {
-                throw new ExPersonAlreadyExists("Person already exists.");
+                throw new ExPersonAlreadyExists();
             }
 
             this.Add(person);
@@ -38,21 +38,29 @@ namespace OrganizationLibrary
 
         public int NumberOfPersons()
         {
-            return this.ToList().Count;
+            return base.Count;
         }
 
-        /*public int NumberOfManagers()
+        public int NumberOfManagers()
         {
-            IEnumerable<Person> managers = this.Where(p => p.);
+            int quantity = 0;
 
-            return managers.ToList().Count;
+            foreach (Person p in base.Items)
+            {
+                if (p is Manager)
+                {
+                    quantity++;
+                }
+            }
+
+            return quantity;
         }
 
         public int NumberOfProgrammers()
         {
-            IEnumerable<Person> programmers = this.Where(p => true);
+            IEnumerable<Person> programmers = base.Items.Where(p => p is Programmer);
 
             return programmers.ToList().Count;
-        }*/
+        }
     }
 }

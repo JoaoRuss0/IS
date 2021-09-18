@@ -6,7 +6,7 @@ namespace OrganizationLibrary
     [Serializable]
     internal class ExPersonDoesNotExist : Exception
     {
-        public String Message = "Person does not exist.";
+        public override String Message { get { return "Person does not exist."; } }
 
         public ExPersonDoesNotExist()
         {

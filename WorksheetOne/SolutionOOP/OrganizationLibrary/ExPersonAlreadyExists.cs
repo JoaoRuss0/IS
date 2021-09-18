@@ -6,8 +6,8 @@ namespace OrganizationLibrary
     [Serializable]
     internal class ExPersonAlreadyExists : Exception
     {
-        public String Message = "Person already exists.";
-        
+        public override String Message { get { return "Person already exists."; } }
+
         public ExPersonAlreadyExists()
         {
         }
