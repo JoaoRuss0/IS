@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -100,6 +101,213 @@ namespace ExcelLib
             ReleaseCOMObjects(application, workbook);
 
             return content;
+        }
+
+        public static void CreateExcelChart(string filename)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = workbook.Worksheets.get_Item(1);
+
+            Excel.Chart chart = null;
+            Excel.ChartObjects charts = worksheet.ChartObjects();
+            Excel.ChartObject chartObject = charts.Add(50, 50, 300, 300);
+            chart = chartObject.Chart;
+
+            Excel.Range range = worksheet.get_Range("B1:B4");
+            chart.SetSourceData(range);
+
+            chart.ChartType = Excel.XlChartType.xlLine;
+            chart.ChartWizard(
+                Source: range,
+                Title: "Graph Title",
+                CategoryTitle: "Title of X axis",
+                ValueTitle: "Title of Y axis"
+                );
+
+            workbook.Save();
+            workbook.Close();
+            application.Quit();
+
+            ReleaseCOMObjects(application, workbook);
+        }
+
+        public static string[,] ReadNByMcells(int height, int width, string filename)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = workbook.Worksheets.get_Item(1);
+
+            string[,] readCells = new string[height, width];
+
+            for (int i = 1; i <= width; i++)
+            {
+                for (int j = 1; j <= height; j++)
+                {
+                    readCells[i - 1, j - 1] = worksheet.Cells[i, j].Value;
+                }
+            }
+
+            workbook.Close();
+            application.Quit();
+
+            ReleaseCOMObjects(application, workbook);
+            
+            return readCells;
+        }
+
+        public static string ReadFromXWorksheet(string filename, int worksheetIndex)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+
+            string content = "";
+
+            try
+            {
+                Excel.Worksheet worksheet = workbook.Worksheets.get_Item(worksheetIndex);
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        content += worksheet.Cells[i + 1, j + 1].value + " ";
+                    }
+
+                    content += Environment.NewLine;
+                }
+            }
+            catch
+            {
+                content = "Could not open worksheet " + worksheetIndex + "!";
+            }
+
+            workbook.Close();
+            application.Quit();
+
+            ReleaseCOMObjects(application, workbook);
+
+            return content;
+        }
+
+        public static void WriteDataToWorkbook(string filename, string data)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = (Excel.Worksheet) workbook.ActiveSheet;
+
+            worksheet.Cells[1, 1] = data;
+
+            workbook.Save();
+            workbook.Close();
+            application.Quit();
+
+            ReleaseCOMObjects(application, workbook);
+        }
+
+        public static int CountLinesWithData(string filename)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+
+            // https://stackoverflow.com/a/22152292
+            // Detect Last used Row - Ignore cells that contains formulas that result in blank values
+            int row = worksheet.Cells.Find(
+                            "*",
+                            System.Reflection.Missing.Value,
+                            Excel.XlFindLookIn.xlValues,
+                            Excel.XlLookAt.xlWhole,
+                            Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious,
+                            false,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value).Row;
+
+            // Detect Last Used Column  - Ignore cells that contains formulas that result in blank values
+            int col = worksheet.Cells.Find(
+                            "*",
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value,
+                            Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious,
+                            false,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value).Column;
+
+            int count = 0;
+
+            for (int i = 1; i <= row; i++)
+            {
+                for (int j = 1; j <= col; j++)
+                {
+                    if(worksheet.Cells[i, j].Value != null)
+                    {
+                        count++;
+                        break;
+                    }
+                }
+            }
+
+            workbook.Close();
+            application.Quit();
+
+            ReleaseCOMObjects(application, workbook);
+
+            return count;
+        }
+
+        public static int CountOccurencesInWorksheet(string filename, string stringToFind)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+
+            int row = worksheet.Cells.Find(
+                            "*",
+                            System.Reflection.Missing.Value,
+                            Excel.XlFindLookIn.xlValues,
+                            Excel.XlLookAt.xlWhole,
+                            Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious,
+                            false,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value).Row;
+
+            int col = worksheet.Cells.Find(
+                            "*",
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value,
+                            Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious,
+                            false,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value).Column;
+
+            int count = 0;
+
+            for (int i = 1; i <= row; i++)
+            {
+                for (int j = 1; j <= col; j++)
+                {
+                    var value = worksheet.Cells[i, j].Value;
+
+                    if (value != null && value.ToString().Contains(stringToFind))
+                    {
+                        count += new Regex(Regex.Escape(stringToFind)).Matches(value.ToString()).Count;
+                        break;
+                    }
+                }
+            }
+
+            workbook.Close();
+            application.Quit();
+
+            ReleaseCOMObjects(application, workbook);
+
+            return count;
         }
     }
 }
