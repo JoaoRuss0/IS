@@ -42,16 +42,23 @@ namespace WinExcelApp
             this.CountUsedLinesButton = new System.Windows.Forms.Button();
             this.TestBoxStringToFind = new System.Windows.Forms.TextBox();
             this.FindStringButton = new System.Windows.Forms.Button();
+            this.TextBoxFilename = new System.Windows.Forms.TextBox();
+            this.NumericUpDownHeight = new System.Windows.Forms.NumericUpDown();
+            this.NumericUpDownWidth = new System.Windows.Forms.NumericUpDown();
+            this.LabelHeight = new System.Windows.Forms.Label();
+            this.LabelWidth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWorksheetIndex)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // NewExcelButton
             // 
             this.NewExcelButton.AccessibleDescription = "";
             this.NewExcelButton.AccessibleName = "NewExcelButton";
-            this.NewExcelButton.Location = new System.Drawing.Point(318, 12);
+            this.NewExcelButton.Location = new System.Drawing.Point(330, 45);
             this.NewExcelButton.Name = "NewExcelButton";
-            this.NewExcelButton.Size = new System.Drawing.Size(100, 25);
+            this.NewExcelButton.Size = new System.Drawing.Size(126, 25);
             this.NewExcelButton.TabIndex = 0;
             this.NewExcelButton.Text = "New Excel";
             this.NewExcelButton.UseVisualStyleBackColor = true;
@@ -64,14 +71,14 @@ namespace WinExcelApp
             this.TextBoxDisabled.Location = new System.Drawing.Point(12, 12);
             this.TextBoxDisabled.Multiline = true;
             this.TextBoxDisabled.Name = "TextBoxDisabled";
-            this.TextBoxDisabled.Size = new System.Drawing.Size(300, 300);
+            this.TextBoxDisabled.Size = new System.Drawing.Size(300, 333);
             this.TextBoxDisabled.TabIndex = 2;
             // 
             // ReadButton
             // 
-            this.ReadButton.Location = new System.Drawing.Point(318, 74);
+            this.ReadButton.Location = new System.Drawing.Point(330, 164);
             this.ReadButton.Name = "ReadButton";
-            this.ReadButton.Size = new System.Drawing.Size(100, 25);
+            this.ReadButton.Size = new System.Drawing.Size(126, 25);
             this.ReadButton.TabIndex = 3;
             this.ReadButton.Text = "Read";
             this.ReadButton.UseVisualStyleBackColor = true;
@@ -79,9 +86,9 @@ namespace WinExcelApp
             // 
             // WriteButton
             // 
-            this.WriteButton.Location = new System.Drawing.Point(318, 43);
+            this.WriteButton.Location = new System.Drawing.Point(330, 133);
             this.WriteButton.Name = "WriteButton";
-            this.WriteButton.Size = new System.Drawing.Size(100, 25);
+            this.WriteButton.Size = new System.Drawing.Size(126, 25);
             this.WriteButton.TabIndex = 4;
             this.WriteButton.Text = "Write";
             this.WriteButton.UseVisualStyleBackColor = true;
@@ -89,9 +96,9 @@ namespace WinExcelApp
             // 
             // NewChartButton
             // 
-            this.NewChartButton.Location = new System.Drawing.Point(318, 136);
+            this.NewChartButton.Location = new System.Drawing.Point(330, 195);
             this.NewChartButton.Name = "NewChartButton";
-            this.NewChartButton.Size = new System.Drawing.Size(100, 25);
+            this.NewChartButton.Size = new System.Drawing.Size(126, 25);
             this.NewChartButton.TabIndex = 5;
             this.NewChartButton.Text = "New Chart";
             this.NewChartButton.UseVisualStyleBackColor = true;
@@ -99,9 +106,9 @@ namespace WinExcelApp
             // 
             // ReadNByMButton
             // 
-            this.ReadNByMButton.Location = new System.Drawing.Point(318, 105);
+            this.ReadNByMButton.Location = new System.Drawing.Point(494, 226);
             this.ReadNByMButton.Name = "ReadNByMButton";
-            this.ReadNByMButton.Size = new System.Drawing.Size(100, 25);
+            this.ReadNByMButton.Size = new System.Drawing.Size(126, 25);
             this.ReadNByMButton.TabIndex = 6;
             this.ReadNByMButton.Text = "Read NxM";
             this.ReadNByMButton.UseVisualStyleBackColor = true;
@@ -109,9 +116,9 @@ namespace WinExcelApp
             // 
             // ReadXWorksheetButton
             // 
-            this.ReadXWorksheetButton.Location = new System.Drawing.Point(424, 105);
+            this.ReadXWorksheetButton.Location = new System.Drawing.Point(494, 45);
             this.ReadXWorksheetButton.Name = "ReadXWorksheetButton";
-            this.ReadXWorksheetButton.Size = new System.Drawing.Size(100, 56);
+            this.ReadXWorksheetButton.Size = new System.Drawing.Size(126, 25);
             this.ReadXWorksheetButton.TabIndex = 7;
             this.ReadXWorksheetButton.Text = "Read Worksheet";
             this.ReadXWorksheetButton.UseVisualStyleBackColor = true;
@@ -119,24 +126,34 @@ namespace WinExcelApp
             // 
             // NumericUpDownWorksheetIndex
             // 
-            this.NumericUpDownWorksheetIndex.Location = new System.Drawing.Point(444, 79);
+            this.NumericUpDownWorksheetIndex.Location = new System.Drawing.Point(494, 13);
+            this.NumericUpDownWorksheetIndex.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.NumericUpDownWorksheetIndex.Name = "NumericUpDownWorksheetIndex";
-            this.NumericUpDownWorksheetIndex.Size = new System.Drawing.Size(59, 20);
+            this.NumericUpDownWorksheetIndex.Size = new System.Drawing.Size(126, 20);
             this.NumericUpDownWorksheetIndex.TabIndex = 9;
+            this.NumericUpDownWorksheetIndex.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // TextBoxData
             // 
-            this.TextBoxData.Location = new System.Drawing.Point(318, 178);
+            this.TextBoxData.Location = new System.Drawing.Point(492, 100);
             this.TextBoxData.Multiline = true;
             this.TextBoxData.Name = "TextBoxData";
-            this.TextBoxData.Size = new System.Drawing.Size(206, 27);
+            this.TextBoxData.Size = new System.Drawing.Size(126, 27);
             this.TextBoxData.TabIndex = 10;
             // 
             // WriteDataToWorkbookButton
             // 
-            this.WriteDataToWorkbookButton.Location = new System.Drawing.Point(318, 211);
+            this.WriteDataToWorkbookButton.Location = new System.Drawing.Point(492, 133);
             this.WriteDataToWorkbookButton.Name = "WriteDataToWorkbookButton";
-            this.WriteDataToWorkbookButton.Size = new System.Drawing.Size(206, 25);
+            this.WriteDataToWorkbookButton.Size = new System.Drawing.Size(126, 25);
             this.WriteDataToWorkbookButton.TabIndex = 11;
             this.WriteDataToWorkbookButton.Text = "Write to Workbook";
             this.WriteDataToWorkbookButton.UseVisualStyleBackColor = true;
@@ -144,9 +161,9 @@ namespace WinExcelApp
             // 
             // CountUsedLinesButton
             // 
-            this.CountUsedLinesButton.Location = new System.Drawing.Point(424, 12);
+            this.CountUsedLinesButton.Location = new System.Drawing.Point(330, 226);
             this.CountUsedLinesButton.Name = "CountUsedLinesButton";
-            this.CountUsedLinesButton.Size = new System.Drawing.Size(100, 25);
+            this.CountUsedLinesButton.Size = new System.Drawing.Size(126, 25);
             this.CountUsedLinesButton.TabIndex = 12;
             this.CountUsedLinesButton.Text = "Count Used Lines";
             this.CountUsedLinesButton.UseVisualStyleBackColor = true;
@@ -154,27 +171,93 @@ namespace WinExcelApp
             // 
             // TestBoxStringToFind
             // 
-            this.TestBoxStringToFind.Location = new System.Drawing.Point(318, 254);
+            this.TestBoxStringToFind.Location = new System.Drawing.Point(494, 287);
             this.TestBoxStringToFind.Multiline = true;
             this.TestBoxStringToFind.Name = "TestBoxStringToFind";
-            this.TestBoxStringToFind.Size = new System.Drawing.Size(204, 27);
+            this.TestBoxStringToFind.Size = new System.Drawing.Size(126, 27);
             this.TestBoxStringToFind.TabIndex = 13;
             // 
             // FindStringButton
             // 
-            this.FindStringButton.Location = new System.Drawing.Point(318, 287);
+            this.FindStringButton.Location = new System.Drawing.Point(494, 320);
             this.FindStringButton.Name = "FindStringButton";
-            this.FindStringButton.Size = new System.Drawing.Size(206, 25);
+            this.FindStringButton.Size = new System.Drawing.Size(126, 25);
             this.FindStringButton.TabIndex = 14;
             this.FindStringButton.Text = "Find in Worksheet";
             this.FindStringButton.UseVisualStyleBackColor = true;
             this.FindStringButton.Click += new System.EventHandler(this.FindStringButton_Click);
             // 
+            // TextBoxFilename
+            // 
+            this.TextBoxFilename.Location = new System.Drawing.Point(330, 12);
+            this.TextBoxFilename.Multiline = true;
+            this.TextBoxFilename.Name = "TextBoxFilename";
+            this.TextBoxFilename.Size = new System.Drawing.Size(126, 27);
+            this.TextBoxFilename.TabIndex = 15;
+            this.TextBoxFilename.Text = "NewExcelFile";
+            // 
+            // NumericUpDownHeight
+            // 
+            this.NumericUpDownHeight.Location = new System.Drawing.Point(494, 200);
+            this.NumericUpDownHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NumericUpDownHeight.Name = "NumericUpDownHeight";
+            this.NumericUpDownHeight.Size = new System.Drawing.Size(58, 20);
+            this.NumericUpDownHeight.TabIndex = 16;
+            this.NumericUpDownHeight.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // NumericUpDownWidth
+            // 
+            this.NumericUpDownWidth.Location = new System.Drawing.Point(562, 200);
+            this.NumericUpDownWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NumericUpDownWidth.Name = "NumericUpDownWidth";
+            this.NumericUpDownWidth.Size = new System.Drawing.Size(58, 20);
+            this.NumericUpDownWidth.TabIndex = 17;
+            this.NumericUpDownWidth.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // LabelHeight
+            // 
+            this.LabelHeight.AutoSize = true;
+            this.LabelHeight.Location = new System.Drawing.Point(491, 184);
+            this.LabelHeight.Name = "LabelHeight";
+            this.LabelHeight.Size = new System.Drawing.Size(41, 13);
+            this.LabelHeight.TabIndex = 18;
+            this.LabelHeight.Text = "Height:";
+            // 
+            // LabelWidth
+            // 
+            this.LabelWidth.AutoSize = true;
+            this.LabelWidth.Location = new System.Drawing.Point(559, 184);
+            this.LabelWidth.Name = "LabelWidth";
+            this.LabelWidth.Size = new System.Drawing.Size(38, 13);
+            this.LabelWidth.TabIndex = 19;
+            this.LabelWidth.Text = "Width:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 327);
+            this.ClientSize = new System.Drawing.Size(630, 357);
+            this.Controls.Add(this.LabelWidth);
+            this.Controls.Add(this.LabelHeight);
+            this.Controls.Add(this.NumericUpDownWidth);
+            this.Controls.Add(this.NumericUpDownHeight);
+            this.Controls.Add(this.TextBoxFilename);
             this.Controls.Add(this.FindStringButton);
             this.Controls.Add(this.TestBoxStringToFind);
             this.Controls.Add(this.CountUsedLinesButton);
@@ -191,6 +274,8 @@ namespace WinExcelApp
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWorksheetIndex)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,6 +296,11 @@ namespace WinExcelApp
         private System.Windows.Forms.Button CountUsedLinesButton;
         private System.Windows.Forms.TextBox TestBoxStringToFind;
         private System.Windows.Forms.Button FindStringButton;
+        private System.Windows.Forms.TextBox TextBoxFilename;
+        private System.Windows.Forms.NumericUpDown NumericUpDownHeight;
+        private System.Windows.Forms.NumericUpDown NumericUpDownWidth;
+        private System.Windows.Forms.Label LabelHeight;
+        private System.Windows.Forms.Label LabelWidth;
     }
 }
 

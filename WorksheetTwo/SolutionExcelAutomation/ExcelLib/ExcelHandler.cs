@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ExcelLib
@@ -140,11 +136,11 @@ namespace ExcelLib
 
             string[,] readCells = new string[height, width];
 
-            for (int i = 1; i <= width; i++)
+            for (int i = 1; i <= height; i++)
             {
-                for (int j = 1; j <= height; j++)
+                for (int j = 1; j <= width; j++)
                 {
-                    readCells[i - 1, j - 1] = worksheet.Cells[i, j].Value;
+                    readCells[i - 1, j - 1] = (worksheet.Cells[i, j].Value != null) ? worksheet.Cells[i, j].Value.ToString() : "";
                 }
             }
 
@@ -167,11 +163,35 @@ namespace ExcelLib
             {
                 Excel.Worksheet worksheet = workbook.Worksheets.get_Item(worksheetIndex);
 
-                for (int i = 0; i < 10; i++)
+                int row = worksheet.Cells.Find(
+                            "*",
+                            System.Reflection.Missing.Value,
+                            Excel.XlFindLookIn.xlValues,
+                            Excel.XlLookAt.xlWhole,
+                            Excel.XlSearchOrder.xlByRows,
+                            Excel.XlSearchDirection.xlPrevious,
+                            false,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value).Row;
+
+                int col = worksheet.Cells.Find(
+                            "*",
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value,
+                            Excel.XlSearchOrder.xlByColumns,
+                            Excel.XlSearchDirection.xlPrevious,
+                            false,
+                            System.Reflection.Missing.Value,
+                            System.Reflection.Missing.Value).Column;
+
+                for (int i = 0; i < row; i++)
                 {
-                    for (int j = 0; j < 10; j++)
+                    content += "| ";
+
+                    for (int j = 0; j < col; j++)
                     {
-                        content += worksheet.Cells[i + 1, j + 1].value + " ";
+                        content += worksheet.Cells[i + 1, j + 1].value + " | ";
                     }
 
                     content += Environment.NewLine;
