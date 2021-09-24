@@ -6,7 +6,7 @@ namespace ExcelLib
 {
     public class ExcelHandler
     {
-        private static String _basePath = "o:\\Classes\\IS\\Practical\\WorksheetTwo\\";
+        private static String _basePath = "C:\\Users\\r0u6s\\Documents\\Classes\\IS\\Practical\\WorksheetTwo\\";
 
         public static void CreateNewExcelFile(string filename)
         {
@@ -21,15 +21,23 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
-        }
-
-        public static void ReleaseCOMObjects(Excel.Application application, Excel.Workbook workbook)
-        {
-            application = null;
-            workbook = null;
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
 
             GC.Collect();
+        }
+
+        private static void MyReleaseCOMObjects(Object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         public static void WriteToExcelFile(string filename)
@@ -38,30 +46,32 @@ namespace ExcelLib
             //application.Visible = true;
 
             Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
-            Excel.Worksheet worksheet1 = workbook.Worksheets.get_Item(1);
+            Excel.Worksheet worksheet = workbook.Worksheets.get_Item(1);
 
-            worksheet1.Cells[1, 1].Value = "Worksheet";
-            worksheet1.Cells[1, 2].Value = "one!";
-
-            Excel.Worksheet worksheet2;
+            worksheet.Cells[1, 1].Value = "Worksheet";
+            worksheet.Cells[1, 2].Value = "one!";
 
             try
             {
-                worksheet2 = workbook.Worksheets.get_Item(2);
+                worksheet = workbook.Worksheets.get_Item(2);
             }
             catch
             {
-                worksheet2 = workbook.Worksheets.Add(After: worksheet1);
+                worksheet = workbook.Worksheets.Add(After: worksheet);
             }
 
-            worksheet2.Cells[1, 1].Value = "Worksheet";
-            worksheet2.Cells[1, 2].Value = "two!";
+            worksheet.Cells[1, 1].Value = "Worksheet";
+            worksheet.Cells[1, 2].Value = "two!";
 
             workbook.Save();
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
         }
 
         public static string ReadFromExcelFile(string filename)
@@ -94,7 +104,11 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
 
             return content;
         }
@@ -110,6 +124,11 @@ namespace ExcelLib
             Excel.ChartObject chartObject = charts.Add(50, 50, 300, 300);
             chart = chartObject.Chart;
 
+            for (int i = 1; i <= 4; i++)
+            {
+                worksheet.Cells[i, 2].Value = 10 * i;
+            }
+
             Excel.Range range = worksheet.get_Range("B1:B4");
             chart.SetSourceData(range);
 
@@ -124,8 +143,16 @@ namespace ExcelLib
             workbook.Save();
             workbook.Close();
             application.Quit();
+            
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+            MyReleaseCOMObjects(range);
+            MyReleaseCOMObjects(chart);
+            MyReleaseCOMObjects(charts);
+            MyReleaseCOMObjects(chartObject);
 
-            ReleaseCOMObjects(application, workbook);
+            GC.Collect();
         }
 
         public static string[,] ReadNByMcells(int height, int width, string filename)
@@ -147,21 +174,76 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
-            
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
+
             return readCells;
+        }
+
+        public static string[,] ReadRange(string filename, string start, string end)
+        {
+            Excel.Application application = new Excel.Application();
+            Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = workbook.Worksheets.get_Item(1);
+
+            //https://stackoverflow.com/a/2627368
+            Excel.Range range = worksheet.get_Range(start, end);
+            System.Array values = range.Cells.Value;
+            string[,] stringValues = ConvertRangeValuesToString(values);
+
+            workbook.Close();
+            application.Quit();
+
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+            MyReleaseCOMObjects(range);
+
+            GC.Collect();
+
+            return stringValues;
+        }
+
+        private static string[,] ConvertRangeValuesToString(System.Array values)
+        {
+            int height = values.GetLength(0);
+            int width = values.GetLength(1);
+
+            string[,] stringValues = new string[height, width];
+
+            for (int i = 1; i <= height; i++)
+            {
+                for (int j = 1; j <= width; j++)
+                {
+                    var value = values.GetValue(i, j);
+
+                    if (value == null)
+                    {
+                        stringValues[i - 1, j - 1] = "";
+                        continue;
+                    }
+
+                    stringValues[i - 1, j - 1] = value.ToString();
+                }
+            }
+
+            return stringValues;
         }
 
         public static string ReadFromXWorksheet(string filename, int worksheetIndex)
         {
             Excel.Application application = new Excel.Application();
             Excel.Workbook workbook = application.Workbooks.Open(_basePath + filename);
+            Excel.Worksheet worksheet = null;
 
             string content = "";
 
             try
             {
-                Excel.Worksheet worksheet = workbook.Worksheets.get_Item(worksheetIndex);
+                worksheet = workbook.Worksheets.get_Item(worksheetIndex);
 
                 int row = worksheet.Cells.Find(
                             "*",
@@ -205,7 +287,11 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
 
             return content;
         }
@@ -222,7 +308,11 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
         }
 
         public static int CountLinesWithData(string filename)
@@ -273,7 +363,11 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
 
             return count;
         }
@@ -325,7 +419,11 @@ namespace ExcelLib
             workbook.Close();
             application.Quit();
 
-            ReleaseCOMObjects(application, workbook);
+            MyReleaseCOMObjects(application);
+            MyReleaseCOMObjects(workbook);
+            MyReleaseCOMObjects(worksheet);
+
+            GC.Collect();
 
             return count;
         }

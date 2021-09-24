@@ -11,9 +11,9 @@ using ExcelLib;
 
 namespace WinExcelApp
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
-        public Form1()
+        public Form()
         {
             InitializeComponent();
         }
@@ -21,11 +21,15 @@ namespace WinExcelApp
         private void NewExcelButton_Click(object sender, EventArgs e)
         {
             ExcelHandler.CreateNewExcelFile(TextBoxFilename.Text.ToString());
+
+            MessageBox.Show($"New excel file '{TextBoxFilename.Text}' was created.");
         }
 
         private void WriteButton_Click(object sender, EventArgs e)
         {
             ExcelHandler.WriteToExcelFile(TextBoxFilename.Text.ToString());
+
+            MessageBox.Show($"Wrote to '{TextBoxFilename.Text}'.");
         }
 
         private void ReadButton_Click(object sender, EventArgs e)
@@ -82,6 +86,28 @@ namespace WinExcelApp
                 + "' was found "
                 + ExcelHandler.CountOccurencesInWorksheet(TextBoxFilename.Text.ToString(), TestBoxStringToFind.Text)
                 + " times.";
+        }
+
+        private void ButtonReadRange_Click(object sender, EventArgs e)
+        {
+            string[,] readCells = ExcelHandler.ReadRange(TextBoxFilename.Text.ToString(), TextBoxStart.Text, TextBoxEnd.Text);
+
+            int height = readCells.GetLength(0);
+            int width = readCells.GetLength(1);
+
+            TextBoxDisabled.Text = "";
+
+            for (int i = 1; i <= height; i++)
+            {
+                TextBoxDisabled.Text += "| ";
+
+                for (int j = 1; j <= width; j++)
+                {
+                    TextBoxDisabled.Text += readCells[i - 1, j - 1] + " | ";
+                }
+
+                TextBoxDisabled.Text += Environment.NewLine;
+            }
         }
     }
 }

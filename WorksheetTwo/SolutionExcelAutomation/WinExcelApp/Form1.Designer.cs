@@ -1,7 +1,7 @@
 ﻿
 namespace WinExcelApp
 {
-    partial class Form1
+    partial class Form
     {
         /// <summary>
         /// Required designer variable.
@@ -47,6 +47,11 @@ namespace WinExcelApp
             this.NumericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.LabelHeight = new System.Windows.Forms.Label();
             this.LabelWidth = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ButtonReadRange = new System.Windows.Forms.Button();
+            this.TextBoxStart = new System.Windows.Forms.TextBox();
+            this.TextBoxEnd = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWorksheetIndex)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWidth)).BeginInit();
@@ -148,6 +153,7 @@ namespace WinExcelApp
             this.TextBoxData.Name = "TextBoxData";
             this.TextBoxData.Size = new System.Drawing.Size(126, 27);
             this.TextBoxData.TabIndex = 10;
+            this.TextBoxData.Text = "ABCDEF";
             // 
             // WriteDataToWorkbookButton
             // 
@@ -176,6 +182,7 @@ namespace WinExcelApp
             this.TestBoxStringToFind.Name = "TestBoxStringToFind";
             this.TestBoxStringToFind.Size = new System.Drawing.Size(126, 27);
             this.TestBoxStringToFind.TabIndex = 13;
+            this.TestBoxStringToFind.Text = "a";
             // 
             // FindStringButton
             // 
@@ -248,11 +255,62 @@ namespace WinExcelApp
             this.LabelWidth.TabIndex = 19;
             this.LabelWidth.Text = "Width:";
             // 
-            // Form1
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(707, 184);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "End:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(639, 184);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "Start:";
+            // 
+            // ButtonReadRange
+            // 
+            this.ButtonReadRange.Location = new System.Drawing.Point(642, 226);
+            this.ButtonReadRange.Name = "ButtonReadRange";
+            this.ButtonReadRange.Size = new System.Drawing.Size(126, 25);
+            this.ButtonReadRange.TabIndex = 20;
+            this.ButtonReadRange.Text = "Read Range";
+            this.ButtonReadRange.UseVisualStyleBackColor = true;
+            this.ButtonReadRange.Click += new System.EventHandler(this.ButtonReadRange_Click);
+            // 
+            // TextBoxStart
+            // 
+            this.TextBoxStart.Location = new System.Drawing.Point(642, 200);
+            this.TextBoxStart.Multiline = true;
+            this.TextBoxStart.Name = "TextBoxStart";
+            this.TextBoxStart.Size = new System.Drawing.Size(62, 20);
+            this.TextBoxStart.TabIndex = 25;
+            this.TextBoxStart.Text = "A1";
+            // 
+            // TextBoxEnd
+            // 
+            this.TextBoxEnd.Location = new System.Drawing.Point(710, 200);
+            this.TextBoxEnd.Multiline = true;
+            this.TextBoxEnd.Name = "TextBoxEnd";
+            this.TextBoxEnd.Size = new System.Drawing.Size(58, 20);
+            this.TextBoxEnd.TabIndex = 26;
+            this.TextBoxEnd.Text = "F5";
+            // 
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(630, 357);
+            this.ClientSize = new System.Drawing.Size(780, 357);
+            this.Controls.Add(this.TextBoxEnd);
+            this.Controls.Add(this.TextBoxStart);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.ButtonReadRange);
             this.Controls.Add(this.LabelWidth);
             this.Controls.Add(this.LabelHeight);
             this.Controls.Add(this.NumericUpDownWidth);
@@ -271,8 +329,8 @@ namespace WinExcelApp
             this.Controls.Add(this.ReadButton);
             this.Controls.Add(this.TextBoxDisabled);
             this.Controls.Add(this.NewExcelButton);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Form";
+            this.Text = "Excel Automation";
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWorksheetIndex)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownWidth)).EndInit();
@@ -301,6 +359,11 @@ namespace WinExcelApp
         private System.Windows.Forms.NumericUpDown NumericUpDownWidth;
         private System.Windows.Forms.Label LabelHeight;
         private System.Windows.Forms.Label LabelWidth;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button ButtonReadRange;
+        private System.Windows.Forms.TextBox TextBoxStart;
+        private System.Windows.Forms.TextBox TextBoxEnd;
     }
 }
 
