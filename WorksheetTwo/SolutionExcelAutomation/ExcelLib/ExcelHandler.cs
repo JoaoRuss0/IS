@@ -6,7 +6,7 @@ namespace ExcelLib
 {
     public class ExcelHandler
     {
-        private static String _basePath = "C:\\Users\\r0u6s\\Documents\\Classes\\IS\\Practical\\WorksheetTwo\\";
+        private static string _basePath = System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\..\\..\\";
 
         public static void CreateNewExcelFile(string filename)
         {
@@ -34,7 +34,7 @@ namespace ExcelLib
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
                 obj = null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

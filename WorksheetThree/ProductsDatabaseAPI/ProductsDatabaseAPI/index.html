@@ -6,14 +6,38 @@
 </head>
 <body>
     <div>
-        <h2>All Products</h2>
-        <ul id="products" />
+        <fieldset>
+            <legend>All Products</legend>
+            <ul id="products" />
+        </fieldset>
     </div>
     <div>
-        <h2>Search:</h2>
-        <input type="text" id="searchTerm" />
-        <input type="button" value="Search" onclick="find();" />
-        <p id="product" />
+        <fieldset>
+            <legend>Search a product by Id or Name</legend>
+            <br />
+            <span>Search:</span>
+            <input type="text" id="searchTerm" />
+            <input type="button" value="Search" onclick="find();" />
+            <p id="product" />
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>Create a product</legend>
+            <br />
+            <form action="/api/products" method="post">
+                <label for="pName">Name:</label><br>
+                <input type="text" id="pName" name="Name"><br><br>
+
+                <label for="pCategory">Category:</label><br>
+                <input type="text" id="pCategory" name="Category"><br><br>
+
+                <label for="pPrice">Price:</label><br>
+                <input type="number" id="pPrice" name="Price" step="0.01" min="0" value="1.0"><br><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </fieldset>
     </div>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
     <script>
