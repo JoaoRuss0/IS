@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>RESTful web service - Products App</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+    </div>
+    <div>
+        <h2>Search:</h2>
+        <input type="text" id="searchTerm" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+    <script>
+        var uri = 'http://localhost:55561/api/products';
+
+        $(document).ready(function () {
+            $.get(uri)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+                        //ADD a list item for the product
+                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+                    });
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    alert("Request failed: " + err);
+                });
+        });
+
+        function formatItem(item) {
+            return item.Name + ": " + item.Price + "€";
+        }
+
+        function find() {
+            var id = $('#searchTerm').val();
+
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    if (isNaN(id)) {
+                        $('#product').text("Products:");
+
+                        for (var i = 0; data.length; i++) {
+                            $('#product').append("<p>-" + formatItem(data[i]) + "</p>");
+                        }
+                    }
+                    else {
+                        $('#product').text(formatItem(data));
+                    }
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    var err = textStatus2 + ", " + error;
+                    alert("request failed! : ", err);
+                });
+        }
+    </script>
+</body>
+</html>

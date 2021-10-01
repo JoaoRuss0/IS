@@ -26,9 +26,8 @@ namespace ProductsDatabaseAPI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=O:\\Classes\\IS\\Practical\\Works" +
-            "heetThree\\ProductsDatabaseAPI\\ProductsDatabaseAPI\\App_Data\\DBProds.mdf;Integrate" +
-            "d Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\DBProds.mdf;I" +
+            "ntegrated Security=True")]
         public string ConnStr {
             get {
                 return ((string)(this["ConnStr"]));

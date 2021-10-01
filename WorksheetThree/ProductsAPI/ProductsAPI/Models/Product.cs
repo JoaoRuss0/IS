@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ProductsAPI.Models
+﻿namespace ProductsAPI.Models
 {
     public class Product
     {

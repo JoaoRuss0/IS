@@ -36,7 +36,7 @@ namespace ProductsAPI.Controllers
         [Route("api/products/{category}")]
         public IEnumerable<Product> GetProductByCategory(string category)
         {
-            return products.Where((product) => product.Category == category);
+            return products.Where((product) => product.Category.Equals(category));
         }
     }
 }
