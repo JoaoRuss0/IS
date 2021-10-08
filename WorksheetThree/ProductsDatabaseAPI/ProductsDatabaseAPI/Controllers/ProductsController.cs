@@ -9,6 +9,7 @@ namespace ProductsDatabaseAPI.Controllers
     public class ProductsController : ApiController
     {
         string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ProductsDatabaseAPI.Properties.Settings.ConnStr"].ConnectionString;
+        //string connectionString = Properties.Settings.Default.ConnStr;
 
         [Route("api/products")]
         public IEnumerable<Product> GetAllProducts()
@@ -146,7 +147,7 @@ namespace ProductsDatabaseAPI.Controllers
 
         [HttpPost]
         [Route("api/products")]
-        public IHttpActionResult PostProduct(Product product)
+        public IHttpActionResult PostProduct([FromBody]Product product)
         {
             SqlConnection connection = null;
             string queryString = "INSERT INTO Prods(Name, Category, Price) VALUES(@Name, @Category, @Price)";
@@ -175,24 +176,89 @@ namespace ProductsDatabaseAPI.Controllers
                 return InternalServerError();
             }
 
-            if (affectedRows == 0)
+            if (affectedRows != 1)
             {
-                return InternalServerError();
+                return BadRequest();
             }
 
             return Ok("Successfully created product");
         }
 
-        /*
-        public IHttpActionResult PutProduct(int id, Product p)
+        [HttpPut]
+        [Route("api/products/{id}")]
+        public IHttpActionResult PutProduct(int id, [FromBody]Product product)
         {
-            
+            SqlConnection connection = null;
+            string queryString = "UPDATE Prods SET Name = @Name, Category = @Category, Price = @Price WHERE Id = @Id";
+            int affectedRows = 0;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@Name", product.Name);
+                command.Parameters.AddWithValue("@Category", product.Category);
+                command.Parameters.AddWithValue("@Price", product.Price);
+
+                connection.Open();
+
+                affectedRows = command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+                return InternalServerError();
+            }
+
+            if (affectedRows != 1)
+            {
+                return BadRequest();
+            }
+
+            return Ok("Successfully updated product " + id);
         }
-        
+
+        [HttpDelete]
+        [Route("api/products/{id}")]
         public IHttpActionResult DeleteProduct(int id)
         {
-            
+            SqlConnection connection = null;
+            string queryString = "DELETE FROM Prods WHERE Id = @Id";
+            int affectedRows = 0;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@Id", id);
+
+                connection.Open();
+
+                affectedRows = command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+                return InternalServerError();
+            }
+
+            if (affectedRows != 1)
+            {
+                return BadRequest();
+            }
+
+            return Ok("Successfully deleted product " + id);
         }
-        */
     }
 }
