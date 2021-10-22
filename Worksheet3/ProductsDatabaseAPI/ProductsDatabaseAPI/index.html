@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>RESTful web service - Products App</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div>
+        <fieldset>
+            <legend>All Products</legend>
+            <ul id="products" />
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>Search a product by Id or Name</legend>
+            <br />
+            <span>Search:</span>
+            <input type="text" id="searchTerm" />
+            <input type="button" value="Search" onclick="find();" />
+            <p id="product" />
+        </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>Create a product</legend>
+            <br />
+            <form action="/api/products" method="post">
+                <label for="pName">Name:</label><br>
+                <input type="text" id="pName" name="Name"><br><br>
+
+                <label for="pCategory">Category:</label><br>
+                <input type="text" id="pCategory" name="Category"><br><br>
+
+                <label for="pPrice">Price:</label><br>
+                <input type="number" id="pPrice" name="Price" step="0.01" min="0" value="1.0"><br><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </fieldset>
+    </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+    <script>
+        var uri = 'http://localhost:55561/api/products';
+
+        $(document).ready(function () {
+            $.get(uri)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+                        //ADD a list item for the product
+                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+                    });
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    alert("Request failed: " + err);
+                });
+        });
+
+        function formatItem(item) {
+            return item.Name + ": " + item.Price + "€";
+        }
+
+        function find() {
+            var id = $('#searchTerm').val();
+
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    if (isNaN(id)) {
+                        $('#product').text("Products:");
+
+                        for (var i = 0; data.length; i++) {
+                            $('#product').append("<p>-" + formatItem(data[i]) + "</p>");
+                        }
+                    }
+                    else {
+                        $('#product').text(formatItem(data));
+                    }
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    var err = textStatus2 + ", " + error;
+                    alert("request failed! : ", err);
+                });
+        }
+    </script>
+</body>
+</html>
