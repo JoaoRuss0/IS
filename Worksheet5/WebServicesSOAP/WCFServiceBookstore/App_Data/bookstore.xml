@@ -27,10 +27,28 @@
     <year>1928</year>
     <price>99999.98</price>
   </book>
+  <book category="SCIENCE">
+    <title>1233</title>
+    <author>123</author>
+    <year>2000</year>
+    <price>1</price>
+  </book>
   <book category="WEB">
-    <title>Der Berg</title>
-    <author>Me</author>
-    <year>1928</year>
-    <price>99999.98</price>
+    <title>AAAAAAAAAAa</title>
+    <author>AAAAAAAAAAa</author>
+    <year>1500</year>
+    <price>10</price>
+  </book>
+  <book category="CHILDREN">
+    <title>AAAAAAAAAAa</title>
+    <author>AAAAAAAAAAa</author>
+    <year>1500</year>
+    <price>10</price>
+  </book>
+  <book category="ROMANCE">
+    <title>AAAAAAAAAAa</title>
+    <author>AAAAAAAAAAa</author>
+    <year>1500</year>
+    <price>10</price>
   </book>
 </bookstore>

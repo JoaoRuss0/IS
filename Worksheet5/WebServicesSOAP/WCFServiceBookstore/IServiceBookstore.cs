@@ -23,7 +23,10 @@ namespace WCFServiceBookstore
 
         [OperationContract]
         Book GetBookByTitle(String title);
-        
+
+        [OperationContract]
+        List<Book> GetBooksByTitle(String title);
+
         [OperationContract]
         bool DeleteBook(String title);
     }

@@ -55,12 +55,11 @@ namespace WCFServiceBookstore
             XmlDocument doc = new XmlDocument();
             doc.Load(FILEPATH);
 
-            XmlNode root = doc.SelectSingleNode("/bookstore");
             XmlNode node = doc.SelectSingleNode($"/bookstore/book[title='{title}']");
 
             if(node != null)
             {
-                root.RemoveChild(node);
+                node.ParentNode.RemoveChild(node);
                 doc.Save(FILEPATH);
                 
                 return true;
@@ -70,17 +69,98 @@ namespace WCFServiceBookstore
 
         public Book GetBookByTitle(string title)
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(FILEPATH);
+
+            XmlNode node = doc.SelectSingleNode($"/bookstore/book[title='{title}']");
+
+            if(node == null)
+            {
+                return null;
+            }
+            return new Book
+            {
+                Title = node["title"].InnerText,
+                Author = node["author"].InnerText,
+                Price = Convert.ToDouble(node["price"].InnerText, System.Globalization.NumberFormatInfo.InvariantInfo),
+                Year = Convert.ToInt32(node["year"].InnerText),
+                Category = (BookCategory)Enum.Parse(typeof(BookCategory), node.Attributes["category"].Value)
+            };
         }
 
         public List<Book> GetBooks()
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(FILEPATH);
+
+            XmlNodeList booksXml = doc.SelectNodes("/bookstore/book");
+            List<Book> books = new List<Book>();
+
+            foreach(XmlNode bookXml in booksXml)
+            {
+                Book book = new Book
+                {
+                    Title = bookXml["title"].InnerText,
+                    Author = bookXml["author"].InnerText,
+                    Price = Convert.ToDouble(bookXml["price"].InnerText, System.Globalization.NumberFormatInfo.InvariantInfo),
+                    Year = Convert.ToInt32(bookXml["year"].InnerText),
+                    Category = (BookCategory)Enum.Parse(typeof(BookCategory), bookXml.Attributes["category"].Value)
+                };
+                
+                books.Add(book);
+            }
+
+            return books;
         }
 
         public List<Book> GetBooksByCategory(BookCategory category)
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(FILEPATH);
+
+            XmlNodeList booksXml = doc.SelectNodes($"/bookstore/book[@category='{category}']");
+            List<Book> books = new List<Book>();
+
+            foreach (XmlNode bookXml in booksXml)
+            {
+                Book book = new Book
+                {
+                    Title = bookXml["title"].InnerText,
+                    Author = bookXml["author"].InnerText,
+                    Price = Convert.ToDouble(bookXml["price"].InnerText, System.Globalization.NumberFormatInfo.InvariantInfo),
+                    Year = Convert.ToInt32(bookXml["year"].InnerText),
+                    Category = (BookCategory)Enum.Parse(typeof(BookCategory), bookXml.Attributes["category"].Value)
+                };
+
+                books.Add(book);
+            }
+
+            return books;
+        }
+
+        public List<Book> GetBooksByTitle(string title)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(FILEPATH);
+
+            XmlNodeList booksXml = doc.SelectNodes($"/bookstore/book[contains(title,'{title}')]");
+            List<Book> books = new List<Book>();
+
+            foreach (XmlNode bookXml in booksXml)
+            {
+                Book book = new Book
+                {
+                    Title = bookXml["title"].InnerText,
+                    Author = bookXml["author"].InnerText,
+                    Price = Convert.ToDouble(bookXml["price"].InnerText, System.Globalization.NumberFormatInfo.InvariantInfo),
+                    Year = Convert.ToInt32(bookXml["year"].InnerText),
+                    Category = (BookCategory)Enum.Parse(typeof(BookCategory), bookXml.Attributes["category"].Value)
+                };
+
+                books.Add(book);
+            }
+
+            return books;   
         }
     }
 }
